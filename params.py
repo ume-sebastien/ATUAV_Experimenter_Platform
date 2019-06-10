@@ -77,3 +77,5 @@ LOG_PREFIX = "./log/AdaptiveMSNV_log"
 
 # Mouse events
 MAX_DOUBLE_CLICK_DUR = 500000
+
+LOG_4C = True

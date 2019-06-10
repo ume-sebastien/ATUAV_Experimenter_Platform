@@ -17,6 +17,7 @@ import subprocess
 
 import csv
 import numpy as np
+import pandas as pd
 from tornado import gen
 import emdat_utils
 import ast
@@ -53,6 +54,9 @@ class TobiiControllerNewSdk:
 		self.pupilvelocity = []
 		self.head_distance = []
 		self.EndFixations = []
+		if params.LOG_4C:
+			self.gaze_log_dataframe = pd.DataFrame(columns=["x", "y", "time_stamp", "validity"])
+			self.fix_log_dataframe = pd.DataFrame(columns=["x", "y", "time_stamp", "duration"])
 		#This contains the websocket to send data to be displayed on front end
 		self.runOnlineFix = True
 		# initialize communications
@@ -154,6 +158,9 @@ class TobiiControllerNewSdk:
 			self.eyetracker.unsubscribe_from(tr.EYETRACKER_GAZE_DATA, self.on_gazedata)
 		else:
 			self.websocket_client.stop_tracking()
+		if params.LOG_4C:
+			self.gaze_log_dataframe.to_csv("gaze_log.csv")
+			self.fix_log_dataframe.to_csv("fix_log.csv")
 		#self.flushData()
 		self.gazeData = []
 		self.eventData = []
@@ -170,6 +177,7 @@ class TobiiControllerNewSdk:
 		self.head_distance = []
 		self.aoi_ids = {}
 		self.dpt_id = 0
+
 
 
 	def logFixations(self, user_id, task_id):
@@ -295,6 +303,8 @@ class TobiiControllerNewSdk:
 		self.validity.append(True)
 		self.LastTimestamp = time_stamp
 		self.dpt_id += 1
+		if params.LOG_4C:
+			self.gaze_log_dataframe = self.gaze_log_dataframe.append({"x":x,"y":y,"validity":validity,"time_stamp":start_time})
 
 	def add_fixation(self, x, y, duration, start_time):
 		'''
@@ -305,7 +315,14 @@ class TobiiControllerNewSdk:
 			y 			- coordinate of fixation on the screen
 			duration 	- duration of fixation in microseconds
 		'''
+		if params.LOG_4C:
+			self.fix_log_dataframe = self.fix_log_dataframe.append({"x":x,"y":y,"duration":duration,"time_stamp":start_time})
 		self.EndFixations.append((x, y, duration, start_time))
+
+	def save_dataframes(self):
+		self.gaze_log_dataframe.to_csv("gaze_4c_log.csv")
+		self.fix_log_dataframe.to_csv("fixation_4c_log.csv")
+
 
 	def get_pupil_size(self, pupilleft, pupilright):
 	    '''
