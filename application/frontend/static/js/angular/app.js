@@ -650,5 +650,7 @@ function removeAllInterventions(referenceID) {
   //if($scopeGlobal.lastSelectedReference!=-1){//remove previous intervention //TODO: check if needed
     $scopeGlobal.curMarksManager.unhighlight($scopeGlobal.interventions, referenceID);
     $scopeGlobal.curMarksManager.removeLines(referenceID.tuple_id);
-    document.getElementsByClassName('refAOI')[0].removeAttribute('class');
+    let elem = document.getElementsByClassName('refAOI')[0];
+    elem.removeAttribute('class');
+    elem.setAttribute('class', 'text-cumulative-ref');
 }
