@@ -628,12 +628,12 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
     // Create the spans in the text
 
     let sm = new SpanManager(paragraph);
-        sm.createSpans([refToHighlight], function(elem, _) {
+        sm.createSpans([refToHighlight, $scopeGlobal.old_active_textref], function(elem, _) {
           elem.setAttribute('class', 'text-reference refAOI');
         });
 
-        sm.createSpans($scopeGlobal.old_active_textref, function(elem, _) {
-          elem.setAttribute('class', 'text-cumulative-ref');
+        $scopeGlobal.old_active_textref.forEach((elem) => {
+          elem.setAttribute('class', 'text-cumulative-ref')
         });
 
     $scopeGlobal.old_active_textref.push(refToHighlight);
