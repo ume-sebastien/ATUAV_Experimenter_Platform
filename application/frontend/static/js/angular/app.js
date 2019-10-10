@@ -636,9 +636,6 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
           elem.setAttribute('class', 'text-cumulative-ref')
         });
 
-    $scopeGlobal.old_active_textref.push(refToHighlight);
-
-
     if (!document.getElementById('textVisContainer')) {
         $scopeGlobal.curMarksManager.createTextVisOverlay('textandvis');
       }
@@ -658,6 +655,7 @@ function removeAllInterventions(referenceID) {
     $scopeGlobal.curMarksManager.removeLines(referenceID.tuple_id);
     let elem = document.getElementsByClassName('refAOI')[0];
     elem.removeAttribute('class');
+    $scopeGlobal.old_active_textref.push(elem);
     $scopeGlobal.old_active_textref.forEach((elem) => {
       elem.removeAttribute('class')
     });
