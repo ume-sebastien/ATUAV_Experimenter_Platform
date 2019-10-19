@@ -620,7 +620,7 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
 
     $scopeGlobal.curMarksManager.highlight(tuple_ids, referenceID.tuple_id, transition_in, args);
 
-    let refToHighlight = $scopeGlobal.startEndCoords.find(function (startEnd) {
+    refToHighlight = $scopeGlobal.startEndCoords.find(function (startEnd) {
       let refNumber = referenceID.ref_id.split("_")[1];
         return startEnd.refId === refNumber;
     });
@@ -628,15 +628,14 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
     // Create the spans in the text
 
     let sm = new SpanManager(paragraph);
-    let cur_old_active_textref = $scopeGlobal.old_active_textref
-        sm.createSpans([refToHighlight].concat(Array.from(cur_old_active_textref)), function(elem, span) {
-          if (span.refId == refToHighlight.refId) {
-            elem.setAttribute('class', 'text-reference refAOI');
-          } else {
-            elem.setAttribute('class', 'text-cumulative-ref')
-          }
-        });
-        $scopeGlobal.old_active_textref.add(refToHighlight)
+    $scopeGlobal.old_active_textref.add(refToHighlight);
+    sm.createSpans(Array.from($scopeGlobal.old_active_textref), function(elem, span) {
+      if (span.refId == refToHighlight.refId) {
+        elem.setAttribute('class', 'text-reference refAOI');
+      } else {
+        elem.setAttribute('class', 'text-cumulative-ref')
+      }
+    });
 
     if (!document.getElementById('textVisContainer')) {
         $scopeGlobal.curMarksManager.createTextVisOverlay('textandvis');
