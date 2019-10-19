@@ -261,8 +261,8 @@ class QuestionnaireHandler(tornado.web.RequestHandler):
         questions = []
 
         # for pilot only
-        questions.append([self.application.cur_mmd, "1", "The branching and clustering was helpful.", "Likert", "Subjective"])
-        questions.append([self.application.cur_mmd, "2", "The branching and clustering was not too distracting.", "Likert", "Subjective"])
+        questions.append([self.application.cur_mmd, "1", "The text underline(cumulative/noncumulative) was helpful.", "Likert", "Subjective"])
+        questions.append([self.application.cur_mmd, "2", "The text underline(cumulative/noncumulative) was not too distracting.", "Likert", "Subjective"])
 
 
     # questions.append([self.application.cur_mmd, "2", "The snippet I read was easy to understand.", "Likert", "Subjective"])

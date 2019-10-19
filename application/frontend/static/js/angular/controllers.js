@@ -51,7 +51,7 @@ var AppCtrl = function($scope, $http, $location) {
   $scope.curSpanManager;
   console.log(currentMMD);
   // Fetch the conditions
-  $http.get('static/data_updated/conditions.json').
+  $http.get('static/data_pilot/conditions.json').
       success(function(data, status, headers) {
         $scope.conditions = data;
         if (data.length > 0) {
@@ -69,7 +69,7 @@ var AppCtrl = function($scope, $http, $location) {
       $scope.curSpanManager.clearSpans();
     }
     // Load the new condition
-    $http.get('static/data_updated/' + $scope.curConditionId + '_updated.json').
+    $http.get('static/data_pilot/' + $scope.curConditionId + '_updated.json').
         success(function(data, status, headers) {
           // Reset the worker filter
           $scope.imgSrc = 'static/' + data.chart;
