@@ -620,7 +620,7 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
 
     $scopeGlobal.curMarksManager.highlight(tuple_ids, referenceID.tuple_id, transition_in, args);
 
-    refToHighlight = $scopeGlobal.startEndCoords.find(function (startEnd) {
+    let refToHighlight = $scopeGlobal.startEndCoords.find(function (startEnd) {
       let refNumber = referenceID.ref_id.split("_")[1];
         return startEnd.refId === refNumber;
     });
@@ -629,7 +629,14 @@ function highlightVisAndRef_recency(referenceID, transition_in, args) {
 
     let sm = new SpanManager(paragraph);
     $scopeGlobal.old_active_textref.add(refToHighlight);
-    sm.createSpans(Array.from($scopeGlobal.old_active_textref), function(elem, span) {
+    let spansToCreate = [];
+
+    if (args.hasOwnProperty('cumulative') ? args.cumulative : false) {
+      spansToCreate = Array.from($scopeGlobal.old_active_textref);
+    } else {
+      spansToCreate[0] = refToHighlight;
+    }
+    sm.createSpans(spansToCreate, function(elem, span) {
       if (span.refId == refToHighlight.refId) {
         elem.setAttribute('class', 'text-reference refAOI');
       } else {
