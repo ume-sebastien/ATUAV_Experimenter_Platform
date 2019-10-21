@@ -21,7 +21,7 @@ div {
 }
 
 .text-reference {
-  border: dashed grey;
+  border: dashed dimgrey;
   border-top-width: 0px;
   border-right-width: 0px;
   border-left-width: 0px;
@@ -29,7 +29,7 @@ div {
 }
 
 .text-cumulative-ref {
-  border: dashed lightgrey;
+  border: dashed darkgrey;
   border-top-width: 0px;
   border-right-width: 0px;
   border-left-width: 0px;
